@@ -3,6 +3,7 @@
 
 - [Introduction](#introduction)
 - [Usage](#usage)
+	- [CLI](#cli)
 	- [FtpServer options:](#ftpserver-options)
 		- [host (string) - IP Address](#host-string---ip-address)
 		- [options (object) - Configuration](#options-object---configuration)
@@ -32,6 +33,12 @@ This is a simple but very configurable FTP server. Notable features include:
 ## Usage
 
 See example code in `test.js`
+
+### CLI
+```
+npm i -g https://github.com/grabantot/nodeftpd.git
+nodeftpd .
+```
 
 ### FtpServer options:
 
@@ -143,7 +150,7 @@ The user is not able to escape this directory.
     - The maximum number of concurrent calls to `fs.stat` which will be
   made when processing a `LIST` request.
 - `filenameSortFunc`: _(default: `localeCompare`)_
-    - A function which can be used as the argument of an array's `sort` method. Used to sort filenames for directory listings.  
+    - A function which can be used as the argument of an array's `sort` method. Used to sort filenames for directory listings.
       See [https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/sort] for more info.
 - `filenameSortMap`: _(default: `function (x) { return x.toUpperCase() }`)_
     - A function which is applied to each filename before sorting.
