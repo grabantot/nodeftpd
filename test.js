@@ -1,6 +1,9 @@
 var ftpd = require('./');
 var fs = require('fs');
 var path = require('path');
+var os = require('os');
+var dns = require('dns');
+
 var keyFile;
 var certFile;
 var server;
@@ -9,6 +12,7 @@ var options = {
   port: process.env.PORT || 7002,
   tls: null,
 };
+var rootDir = process.argv[2] || process.cwd();
 
 if (process.env.KEY_FILE && process.env.CERT_FILE) {
   console.log('Running as FTPS server');
@@ -34,13 +38,14 @@ if (process.env.KEY_FILE && process.env.CERT_FILE) {
   console.log('***  and (optionally) "CA_FILES" env vars. ***');
   console.log();
 }
+console.log(`Root dir: '${rootDir}'`);
 
 server = new ftpd.FtpServer(options.host, {
   getInitialCwd: function() {
     return '/';
   },
   getRoot: function() {
-    return process.cwd();
+    return rootDir;
   },
   pasvPortRangeStart: 1025,
   pasvPortRangeEnd: 1050,
@@ -78,4 +83,19 @@ server.on('client:connected', function(connection) {
 
 server.debugging = 4;
 server.listen(options.port);
-console.log('Listening on port ' + options.port);
+
+var os = require('os');
+var ifaces = os.networkInterfaces();
+
+var ips = [];
+Object.keys(ifaces).forEach(function (ifname) {
+  ifaces[ifname].forEach(function (iface) {
+    if ('IPv4' !== iface.family || iface.internal !== false) {
+      return; // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+    }
+    ips.push(iface.address)
+    console.log('Listening on ftp://' + iface.address + ':' + options.port);
+  });
+});
+
+
