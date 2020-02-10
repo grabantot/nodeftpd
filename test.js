@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var ftpd = require('./');
 var fs = require('fs');
 var path = require('path');
