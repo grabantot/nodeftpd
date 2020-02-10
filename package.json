@@ -11,6 +11,9 @@
     "test": "eslint --max-warnings 0 . && ./node_modules/.bin/istanbul test _mocha",
     "lint": "eslint --max-warnings 0 ."
   },
+  "bin": {
+    "nodeftpd": "./test.js"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:sstur/nodeftpd.git"
